@@ -26,7 +26,6 @@ demo:
 clean-cluster:
 	kind delete cluster
 	docker-compose -f registry/docker-compose.yaml down -v
-	docker rm -f kind-registry
 
 build:
 	pushd app; docker-compose build; popd
