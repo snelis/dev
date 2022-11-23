@@ -1,6 +1,6 @@
 FROM python:alpine
 
-RUN apk add bind-tools bash
+RUN apk add curl bind-tools bash
 
 WORKDIR /app/install
 COPY requirements.txt requirements.txt
