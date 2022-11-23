@@ -1,0 +1,8 @@
+eval "$(starship init zsh)"
+autoload -U +X compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
+source <(kubectl completion zsh)
+bindkey  "^[[1~"   beginning-of-line
+bindkey  "^[[4~"   end-of-line
+bindkey  "^[[3~"  delete-char
+

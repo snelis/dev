@@ -32,10 +32,14 @@ RUN yay --noconfirm -Syu \
   stern \
   helm \
   kubectl \
+  kustomize-bin \
   docker-compose \
   docker \
   chezmoi \
   tmux \
+  tree \
+  k9s \
+  bat \
   zsh starship antigen direnv
 
 RUN yay --noconfirm -Syu \
@@ -49,7 +53,7 @@ RUN yay --noconfirm -Syu \
 ENV PATH="/home/$USER/.local/bin:$PATH"
 RUN zsh --interactive -c id
 
-RUN echo 'eval "$(starship init zsh)"' > /home/$USER/.zshrc
+ADD zshrc /home/$USER/.zshrc
 
 # Back to root
 USER root
