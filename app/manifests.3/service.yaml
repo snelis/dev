@@ -1,0 +1,9 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: demo
+spec:
+  selector:
+    app: demo
+  ports:
+    - port: 8000

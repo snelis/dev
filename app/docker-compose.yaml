@@ -1,0 +1,9 @@
+services:
+  app:
+    build:
+      context: .
+    image: localhost:5000/app:latest
+    environment:
+      DEBUG: "true"
+    ports:
+      - 8000:8000
