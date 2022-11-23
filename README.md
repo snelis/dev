@@ -17,6 +17,16 @@ make cluster
 make demo
 ```
 
+## Points to cover:
+- pod
+- deployment
+- scaling
+- replicaset
+- service 
+  - DNS  / resolv
+  - VIP
+  - load balancing 
+- Database / persistent volume
 
 
 # Use the toolbox (work in progress)
