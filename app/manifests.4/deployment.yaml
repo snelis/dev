@@ -18,10 +18,12 @@ spec:
         - name: main
           image: localhost:5000/app:latest
 
+          # Method 1
           envFrom:
             - configMapRef:
                 name: app-config
 
+          # Method 2
           volumeMounts:
             - mountPath: "/config"
               name: config
