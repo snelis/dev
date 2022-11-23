@@ -37,11 +37,11 @@ push:
 app:
 	pushd app; docker-compose up; popd
 
-deploy1:
-	kubectl apply -f app/manifests.1
+deploy/%:
+	kubectl apply -f app/manifests.$*
 
-deploy2:
-	kubectl apply -f app/manifests.2
+delete/%:
+	kubectl delete -f app/manifests.$*
 
 clean:
-	kubectl delete pod,deploy,svc,ingress,configmap,secrets,job,cronjob,networkpolicy --all
+	kubectl delete pod,deploy,svc,ingress,configmap,secrets,job,cronjob,networkpolicy,pvc --all
