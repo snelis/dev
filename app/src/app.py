@@ -73,11 +73,11 @@ async def list_db():
     if not database.is_connected:
         await database.connect()
 
-    output = {}
+    output = []
 
     await Log.objects.create(hostname=hostname, datetime=datetime.now())
     logs = await Log.objects.limit(100).order_by('-id').all()
     for log in logs:
-        output[log.id] = f"{log.datetime}  {log.hostname}"
+        output.append(f"{log.datetime}  {log.hostname}")
 
     return output
