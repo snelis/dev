@@ -1,1 +1,7 @@
-flask
+fastapi
+uvicorn
+gevent
+psycopg2-binary
+orm[postgresql]
+aiosqlite
+asyncpg
