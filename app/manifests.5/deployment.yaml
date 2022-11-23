@@ -21,7 +21,8 @@ spec:
           command:
             - /app/install/wait-for-it.sh
             - database:5432
-            - -t 60
+            - -t
+            - "60"
       containers:
         - name: main
           image: localhost:5000/app:latest
