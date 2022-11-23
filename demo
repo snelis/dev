@@ -42,8 +42,8 @@ run docker push localhost:5000/demo
 comment "# Create a kubernetes deployment"
 run kubectl create namespace demo
 run kubectl -n demo create deployment demo-app --image localhost:5000/demo:latest
-run kubectl -n demo expose deployment demo-app --port=80 --target-port=8080 --name=demo-service
-run kubectl -n demo create ingress demo-ingress --rule="localhost/demo=demo-service:80"
+run kubectl -n demo expose deployment demo-app --port=80 --target-port=8080 --name=app
+run kubectl -n demo create ingress demo-ingress --rule="localhost/demo=app:80"
 
 comment "# Scale the deployment to 3 instances"
 run kubectl -n demo get deploy,pod,svc,ing
