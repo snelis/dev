@@ -1,0 +1,68 @@
+#!/bin/env bash
+
+COMMAND="\e[92m"
+HEADER="\e[96m"
+COMMENT="\e[33m"
+ENDCOLOR="\e[0m"
+
+function header () {
+  echo -e "${HEADER}$*${ENDCOLOR}"
+  echo "------------------------------------"
+  echo ""
+}
+
+function comment () {
+  echo -e "${COMMENT}$*${ENDCOLOR}"
+}
+
+function run () {
+  echo -e "> ${COMMAND}$*${ENDCOLOR}"
+  read -r
+  trap "echo " EXIT INT TERM
+  bash -c "$*"
+  trap - EXIT INT TERM
+  echo ""
+}
+
+header Kubernetes information
+
+comment "# The following containers form the kubernetes cluster"
+run docker ps --filter "name=kind"
+
+comment "# These containers form the following kubernetes nodes"
+run kubectl get node
+
+header Starting demo app
+
+comment "# Push a docker image to the registry"
+run docker pull nginxdemos/nginx-hello:plain-text
+run docker tag nginxdemos/nginx-hello:plain-text localhost:5000/demo:latest
+run docker push localhost:5000/demo
+
+comment "# Create a kubernetes deployment"
+run kubectl create namespace demo
+run kubectl -n demo create deployment demo-app --image localhost:5000/demo:latest
+run kubectl -n demo expose deployment demo-app --port=80 --target-port=8080 --name=demo-service
+run kubectl -n demo create ingress demo-ingress --rule="localhost/demo=demo-service:80"
+
+comment "# Scale the deployment to 3 instances"
+run kubectl -n demo get deploy,pod,svc,ing
+run kubectl -n demo scale --replicas=3 deploy/demo-app
+run kubectl -n demo get deploy,pod,svc,ing
+
+comment "# Wait for the demo app to become available"
+run kubectl -n demo wait --for=condition=Available deploy/demo-app
+
+comment "# Test the ingress: http://localhost/demo"
+run curl -s localhost/demo
+
+comment "# watch the server change in subsequent requests"
+for _ in {1..6}; do 
+  sleep 0.5
+  run curl -s --fail --retry 5 --retry-all-errors localhost/demo | 
+    grep -B1 -P -i '(?<=demo-app-).*';
+done;
+
+run xdg-open http://localhost/demo
+
+run stern -n demo .
