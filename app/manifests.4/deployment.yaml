@@ -17,3 +17,15 @@ spec:
       containers:
         - name: main
           image: localhost:5000/app:latest
+
+          envFrom:
+            - configMapRef:
+                name: app-config
+
+          volumeMounts:
+            - mountPath: "/config"
+              name: config
+      volumes:
+        - name: config
+          configMap:
+            name: app-config

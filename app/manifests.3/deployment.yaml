@@ -1,26 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: demo
+  name: app
   labels:
-    app: demo
+    app: app
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
-      app: demo
+      app: app
   template:
     metadata:
       labels:
-        app: demo
+        app: app
     spec:
       containers:
         - name: main
           image: localhost:5000/app:latest
-      #     volumeMounts:
-      #       - mountPath: "/data"
-      #         name: data
-      # volumes:
-      #   - name: data
-      #     persistentVolumeClaim:
-      #       claimName: data
