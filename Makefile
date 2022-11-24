@@ -1,4 +1,5 @@
 .PHONY: kind registry app toolbox demo
+SHELL = /bin/bash
 
 kind:
 	./kind/start.sh
