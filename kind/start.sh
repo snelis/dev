@@ -34,7 +34,7 @@ fi
 
 header Creating calico networking
 run kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/calico.yaml
-run kubectl -n kube-system wait --for=condition=Ready pods -l k8s-app=calico-node --timeout=90s
+run kubectl -n kube-system wait --for=condition=Ready pods -l k8s-app=calico-node --timeout=180s
 run kubectl -n kube-system set env daemonset/calico-node FELIX_IGNORELOOSERPF=true
 
 header Creating the nginx ingress
@@ -46,6 +46,6 @@ run kubectl apply -f kind/registry.yaml
 header Wait for the ingress to become available
 run kubectl -n ingress-nginx wait --for=condition=Complete job/ingress-nginx-admission-create
 run kubectl -n ingress-nginx wait --for=condition=Complete job/ingress-nginx-admission-patch
-run kubectl -n ingress-nginx wait --for=condition=ready pod --selector=app.kubernetes.io/component=controller --timeout=90s
+run kubectl -n ingress-nginx wait --for=condition=ready pod --selector=app.kubernetes.io/component=controller --timeout=180s
 
 
