@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/bin/bash
 
 CMD=${1:-zsh}
 docker run --rm \
