@@ -24,7 +24,7 @@ cluster: kind registry
 demo:
 	./demo
 
-clean-cluster:
+destroy:
 	kind delete cluster
 	docker-compose -f registry/docker-compose.yaml down -v
 
