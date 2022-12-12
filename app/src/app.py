@@ -21,7 +21,7 @@ print(db_username)
 print(db_password)
 
 if db_host and db_name and db_username and db_password:
-    DATABASE_URL = f"postgresql://{db_username}:{db_password}@database/{db_name}"
+    DATABASE_URL = f"postgresql://{db_username}:{db_password}@{db_host}/{db_name}"
 else:
     DATABASE_URL = "sqlite:////tmp/db.sqlite"
 
