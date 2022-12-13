@@ -16,4 +16,4 @@ spec:
     spec:
       containers:
         - name: main
-          image: localhost:5000/app:latest
+          image: 127.0.0.1:5001/app:latest

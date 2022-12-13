@@ -1,9 +1,9 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
+  name: app-config
   labels:
     app: app
-  name: app-config
 data:
   APP_CONFIG_FOO: Bar
   APP_CONFIG_HELLO: World

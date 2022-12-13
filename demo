@@ -36,12 +36,12 @@ header Starting demo app
 
 comment "# Push a docker image to the registry"
 run docker pull nginxdemos/nginx-hello:plain-text
-run docker tag nginxdemos/nginx-hello:plain-text localhost:5000/demo:latest
-run docker push localhost:5000/demo
+run docker tag nginxdemos/nginx-hello:plain-text 127.0.0.1:5001/demo:latest
+run docker push 127.0.0.1:5001/demo
 
 comment "# Create a kubernetes deployment"
 run kubectl create namespace demo
-run kubectl -n demo create deployment demo-app --image localhost:5000/demo:latest
+run kubectl -n demo create deployment demo-app --image 127.0.0.1:5001/demo:latest
 run kubectl -n demo expose deployment demo-app --port=80 --target-port=8080 --name=app
 run kubectl -n demo create ingress demo-ingress --rule="localhost/demo=app:80"
 

@@ -17,7 +17,7 @@ spec:
     spec:
       initContainers:
         - name: wait
-          image: localhost:5000/app:latest
+          image: 127.0.0.1:5001/app:latest
           command:
             - /app/install/wait-for-it.sh
             - database:5432
@@ -25,7 +25,7 @@ spec:
             - "60"
       containers:
         - name: main
-          image: localhost:5000/app:latest
+          image: 127.0.0.1:5001/app:latest
 
           envFrom:
             - configMapRef:

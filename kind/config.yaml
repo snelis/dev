@@ -5,7 +5,7 @@ networking:
   podSubnet: 192.168.0.0/16 # set to Calico's default subnet
 containerdConfigPatches:
   - |-
-    [plugins."io.containerd.grpc.v1.cri".registry.mirrors."localhost:5000"]
+    [plugins."io.containerd.grpc.v1.cri".registry.mirrors."127.0.0.1:5001"]
       endpoint = ["http://kind-registry:5000"]
 nodes:
   - role: control-plane
