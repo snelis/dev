@@ -32,10 +32,10 @@ if ! kind get clusters | grep -E "^kind$" >/dev/null ; then
   run kind create cluster --config=kind/config.yaml
 fi
 
-header Creating calico networking
-run kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/calico.yaml
-run kubectl -n kube-system wait --for=condition=Ready pods -l k8s-app=calico-node --timeout=900s
-run kubectl -n kube-system set env daemonset/calico-node FELIX_IGNORELOOSERPF=true
+# header Creating calico networking
+# run kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/calico.yaml
+# run kubectl -n kube-system wait --for=condition=Ready pods -l k8s-app=calico-node --timeout=900s
+# run kubectl -n kube-system set env daemonset/calico-node FELIX_IGNORELOOSERPF=true
 
 header Creating the nginx ingress
 run kubectl apply -f kind/ingress-nginx.yaml
