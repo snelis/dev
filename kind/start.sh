@@ -44,8 +44,43 @@ header Creating the registry definition
 run kubectl apply -f kind/registry.yaml
 
 header Wait for the ingress to become available
-run kubectl -n ingress-nginx wait --for=condition=Complete job/ingress-nginx-admission-create
-run kubectl -n ingress-nginx wait --for=condition=Complete job/ingress-nginx-admission-patch
+run kubectl -n ingress-nginx wait --for=condition=Complete job/ingress-nginx-admission-create --timeout=900s
+run kubectl -n ingress-nginx wait --for=condition=Complete job/ingress-nginx-admission-patch --timeout=900s
 run kubectl -n ingress-nginx wait --for=condition=ready pod --selector=app.kubernetes.io/component=controller --timeout=900s
 
+header Create SecretProviderClass
+run helm repo add secrets-store-csi-driver https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
+run helm repo update
+run helm upgrade -i csi-secrets-store secrets-store-csi-driver/secrets-store-csi-driver --namespace kube-system
+run kubectl -n kube-system wait --for=condition=Ready pods -l app.kubernetes.io/name=secrets-store-csi-driver --timeout=900s
 
+# run helm repo add hashicorp https://helm.releases.hashicorp.com
+# run helm repo update
+# run helm install vault hashicorp/vault \
+#     --set "server.dev.enabled=true" \
+#     --set "injector.enabled=false" \
+#     --set "csi.enabled=true"
+# run kubectl -n default wait --for=condition=Ready pods -l app.kubernetes.io/name=vault-csi-provider --timeout=900s
+
+# kubectl exec -i vault-0 -- vault kv put secret/app oidc-rp-client-id=1337 oidc-rp-client-secret=supersecret
+# kubectl exec -i vault-0 -- vault kv get secret/app
+# kubectl exec -i vault-0 -- vault auth enable kubernetes
+# kubectl exec -it vault-0 -- sh -c '
+# vault write auth/kubernetes/config \
+#     kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443"
+# '
+
+# kubectl exec -it vault-0 -- sh -c '
+# vault policy write dev - <<EOF
+# path "*" {
+#   capabilities = ["read"]
+# }
+# '
+
+# kubectl exec -it vault-0 -- sh -c '
+# vault write auth/kubernetes/role/dev \
+#     bound_service_account_names=default \
+#     bound_service_account_namespaces=default \
+#     policies=dev \
+#     ttl=20m
+# '
